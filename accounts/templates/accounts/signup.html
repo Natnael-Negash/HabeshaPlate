@@ -1,0 +1,27 @@
+{% extends "menu/layout.html" %}
+{% load crispy_forms_tags %} 
+{% block content %}
+<div class="container">
+    <h1>Signup</h1>
+    <div class="form-border">
+        <form class="site-form" action="{% url 'accounts:signup' %}" method="post">
+            {% csrf_token %}
+            
+            <!-- Display error message if signup fails -->
+            {% if form.errors %}
+                <div class="alert alert-danger">
+                    <strong>Signup failed:</strong> Please check the form for errors.
+                </div>
+            {% endif %}
+            
+            <!-- Render form fields with crispy styling -->
+            {{ form|crispy }}
+            
+            <input type="submit" value="Signup" class="btn btn-primary btn-block">
+        </form>
+    </div>
+    
+    <!-- Link to the login page for users with existing accounts -->
+    <p>Already have an account? <a href="{% url 'accounts:login' %}"><u>Login</u></a></p>
+</div>
+{% endblock %}

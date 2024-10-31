@@ -1,0 +1,73 @@
+{% extends "menu/layout.html" %}
+{% block content %}
+<div class="cart">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 mt-5">
+                <h3 class="text-center">Your Cart</h3>
+                {% if cart_items %}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover table-striped table-light">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col">Specification</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Total Pieces</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            {% for cart in cart_items %}
+                        <tr>
+                            <td>{{ cart.item.title }} 
+                                <span class="badge badge-{{ cart.item.label_colour|default:"secondary" }}">{{ cart.item.labels|default:"N/A" }}</span>
+                            </td>
+                            <td>{{ cart.item.description|default:"No description available" }}</td>
+                            <td>{{ cart.item.instructions|default:"N/A" }}</td>
+                            <td>${{ cart.item.price|floatformat:2 }}</td>
+                            <td>{{ cart.item.pieces|default:"1" }} pieces</td>
+                            <td>
+                                <a class="btn btn-danger btn-sm" href="{% url 'menu:remove-from-cart' cart.id %}">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <h4 class="text-center text-muted">Your Cart is Empty... Please add some items!</h4>
+                {% endif %}
+            </div>
+            
+            <div class="col-sm-3 mt-5 mb-3">
+                <div class="content-section p-3 shadow-sm rounded bg-light">
+                    <h3 class="text-center">Order Summary</h3>
+                      <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-light">
+                            Total: <strong>${{ total|floatformat:2 }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-light">
+                            Number of Orders: <strong>{{ count|default:"0" }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center list-group-item-light">
+                            Total Pieces: <strong>{{ total_pieces|default:"0" }}</strong>
+                        </li>
+                        <li class="list-group-item text-center list-group-item-light">
+                            <a class="btn btn-primary w-100" href="{% url 'menu:ordered' %}">
+                                Proceed To Checkout
+                            </a>
+                        </li>
+                        <li class="list-group-item text-center list-group-item-light">
+                            <a class="btn btn-success w-100" href="/">Continue Shopping</a>
+                        </li>
+                      </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

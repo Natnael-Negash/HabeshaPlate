@@ -1,0 +1,16 @@
+{% extends "menu/layout.html" %}
+{% block content %}
+    <div class="content-section container mt-5">
+        <form method="POST" class="p-4 shadow-sm rounded bg-light">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4 text-danger">Delete Cart Item</legend>
+                <h5 class="text-center text-secondary">Are you sure you want to delete the item: <strong>"{{ object.item.title }}"</strong>?</h5>
+            </fieldset>
+            <div class="form-group text-center mt-4">
+                <button class="btn btn-danger btn-lg" type="submit">Yes, Delete</button>
+                <a class="btn btn-secondary btn-lg ms-3" href="{% url 'menu:cart' %}">Cancel</a>
+            </div>
+        </form>
+    </div>
+{% endblock content %}
